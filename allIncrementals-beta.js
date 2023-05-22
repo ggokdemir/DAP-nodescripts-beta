@@ -298,7 +298,7 @@ const downloadAllData = async (urls, table, at, folderName, schema_version) => {
 async function downloadFile (url, targetFile) {  
 	  return await new Promise((resolve, reject) => {
 	    Https.get(url, response => {
-	      const code = response.statusCode ?? 0
+	      const code = response.statusCode || 0
 
 	      if (code >= 400) {
 	        return reject(new Error(response.statusMessage))
@@ -597,7 +597,7 @@ const createTimestampString = (date) => {
 		date = new Date()
 	}
 	//return date.toISOString().split('T')[0]
-	return date.toISOString().replaceAll(":","-").replaceAll(".","-")
+	return date.toISOString().replace(/:/g, "-").replace(/\./g, "-");
 }
 
 /** Ensures that a (local) directory exists (creates it when it does not)
