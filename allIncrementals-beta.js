@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: '/Applications/Splunk/etc/apps/dap_addon_for_splunk/bin/DAP-nodescripts-beta/.env' });
 
 const base_URL = process.env.dap_URL
 const dap_URL = base_URL + "/dap"
@@ -33,7 +33,7 @@ var currentlyValidTokenResponse
 const jwts = require('jsonwebtoken')
 const querystring = require('querystring')
 
-const defaultTopFolder = process.env.topFolder || "."
+const defaultTopFolder = process.env.topFolder || "/Applications/Splunk/etc/apps/dap_addon_for_splunk"
 console.log("Top folder for file storage is: ", defaultTopFolder)
 
 /** Returns an authentication token using authData as parameters to the request
