@@ -36,9 +36,6 @@ const tableListingEndpoint = dap_URL + "/query/canvas/table"
 var currentlyValidToken
 var currentlyValidTokenResponse 
 
-const defaultTopFolder = process.env.topFolder || "."
-console.log("Top folder for file storage is: ", defaultTopFolder)
-
 /** Returns an authentication token using authData as parameters to the request
  * 
  * <p> if 'complete' is true, then the function returns an object with format { access_token: blah, expires_at: blah }. 
@@ -645,7 +642,8 @@ const retrieveAllTables = async (folderName) => {
  * 
  */
 
-const folderName = defaultTopFolder + "/" + "snapshot_" + createTimestampString()
+const folderName = "../../DAP/" + "snapshot_" + createTimestampString()
+console.log("Top folder for file storage is: ", folderName)
 ensureDirExists(folderName)
 // Here's an example of how to retrieve a table subset
 // retrieveTableSubset( ['accounts', 'wiki_pages'], folderName)

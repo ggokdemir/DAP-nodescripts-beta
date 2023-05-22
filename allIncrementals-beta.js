@@ -33,9 +33,6 @@ var currentlyValidTokenResponse
 const jwts = require('jsonwebtoken')
 const querystring = require('querystring')
 
-const defaultTopFolder = process.env.topFolder || "."
-console.log("Top folder for file storage is: ", defaultTopFolder)
-
 /** Returns an authentication token using authData as parameters to the request
  * 
  * <p> if 'complete' is true, then the function returns an object with format { access_token: blah, expires_at: blah }. 
@@ -792,7 +789,8 @@ const findLastTableUpdate = async (table, folderName)=> {
 /* Create a folder for the script's output and run it 
  * 
  */
-const folderName = defaultTopFolder + "/" + "incremental_" + createTimestampString()
+const folderName = "../../DAP/" + "incremental_" + createTimestampString()
+console.log("Top folder for file storage is: ", folderName)
 ensureDirExists(folderName)
 updateAllTables(folderName)
 
