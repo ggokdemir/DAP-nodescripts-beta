@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '/Applications/Splunk/etc/apps/dap_addon_for_splunk/bin/DAP-nodescripts-beta/.env' });
+require('dotenv').config({path: __dirname + '/.env'});
 
 const base_URL = process.env.dap_URL
 const dap_URL = base_URL + "/dap"
