@@ -7,7 +7,7 @@ const defaultTable = "accounts"
 const CD2ClientID = process.env.CD2ClientID
 const CD2Secret = process.env.CD2Secret
 const includeSchemaVersionInFilenames = process.env.includeSchemaVersionInFilenames || false
-const sleepMilliseconds = process.env.sleepMilliseconds || 10000
+const sleepMs = process.env.sleepMilliseconds || 10000
 // maximum number of simultaneous queries to be sent to the DAP service
 const maxSimultaneousQueries = process.env.dap_maxSimultQueries || 10
 // choose a base folder for downloads
