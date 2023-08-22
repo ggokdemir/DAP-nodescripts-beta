@@ -652,7 +652,7 @@ const retrieveAllTables = async (folderName) => {
  * 
  */
 
-const folderName = defaultTopFolder + "/" + "snapshot_" + createTimestampString()
+const folderName = defaultTopFolder + "/DAP/" + "snapshot_" + createTimestampString()
 ensureDirExists(folderName)
 // Here's an example of how to retrieve a table subset
 // retrieveTableSubset( ['accounts', 'wiki_pages'], folderName)
