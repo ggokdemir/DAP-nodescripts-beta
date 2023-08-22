@@ -1,11 +1,20 @@
 require('dotenv').config({path: __dirname + '/.env'});
 
-const base_URL = process.env.dap_URL
+const base_URL = process.env.dap_URL || "https://api-gateway.instructure.com"
 const dap_URL = base_URL + "/dap"
+const defaultTable = "accounts"
+// 5/5/23 now deprecated CD2ApiKey
+const CD2ClientID = process.env.CD2ClientID
+const CD2Secret = process.env.CD2Secret
+const includeSchemaVersionInFilenames = process.env.includeSchemaVersionInFilenames || false
+const sleepMilliseconds = process.env.sleepMilliseconds || 10000
+// maximum number of simultaneous queries to be sent to the DAP service
+const maxSimultaneousQueries = process.env.dap_maxSimultQueries || 10
+// choose a base folder for downloads
+const topFolder=process.env.topFolder
+
 
 const axios = require('axios').default;
-
-const sleepMs = process.env.sleepMilliseconds || 10000
 
 const Fs = require('fs')
 const path = require('path')
@@ -15,8 +24,6 @@ const jwts = require('jsonwebtoken')
 
 const querystring = require('querystring')
 
-// maximum number of simultaneous queries to be sent to the DAP service
-const maxSimultaneousQueries = process.env.dap_maxSimultQueries || 10
 
 // Parameters used in an auth request 
 // 12/7/22 Newly defines the body of the auth request
@@ -36,7 +43,7 @@ const tableListingEndpoint = dap_URL + "/query/canvas/table"
 var currentlyValidToken
 var currentlyValidTokenResponse 
 
-const defaultTopFolder = process.env.topFolder || "."
+const defaultTopFolder = topFolder || "."
 console.log("Top folder for file storage is: ", defaultTopFolder)
 
 /** Returns an authentication token using authData as parameters to the request
@@ -52,7 +59,7 @@ const obtainAuth = async (authEndpoint, authData, complete) =>  {
 		const response =  await axios({
 			method: 'POST',
 			url: authEndpoint,
-			auth: { username: process.env.CD2ClientID, password: process.env.CD2Secret}, // 5/5/23
+			auth: { username: CD2ClientID, password: CD2Secret}, // 5/5/23
 			data: querystring.stringify(authData), 
 			// 5/5/23 headers: {"Content-Type": "application/x-www-form-urlencoded", "Authorization": "Basic " + 
 			// 5/5/23 process.env.CD2ApiKey} // 12/7/22
@@ -269,8 +276,8 @@ const downloadAllData = async (urls, table, at, folderName, schema_version) => {
 				let fileNameTokens = fileUrl.split("/")
 				//let fileName = table + "_" + at + "_" // TODO: add schema version to filename like <table_name>_v<version>_<at>_
 				let fileName = table + 
-					(process.env.includeSchemaVersionInFilenames && 
-						process.env.includeSchemaVersionInFilenames === "true" ? ("_v" + schema_version ) : "") + 
+					(includeSchemaVersionInFilenames && 
+						includeSchemaVersionInFilenames === "true" ? ("_v" + schema_version ) : "") + 
 							"_" + at + "_" // 12/20/22 now recording schema_version depending on configuration parameter
 				if (fileNameTokens && fileNameTokens.length) {
 					fileName += fileNameTokens[fileNameTokens.length -1]
