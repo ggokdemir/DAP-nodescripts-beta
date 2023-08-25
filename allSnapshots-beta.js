@@ -264,7 +264,7 @@ const downloadAllData = async (urls, table, at, folderName, schema_version) => {
 	// Ensure folder exists
 	ensureDirExists(folderName)
 	// Download Data to the specified folder
-	at = at.replaceAll(':','-')
+	at = at.replace(/:/g, "-");
 	console.log("Will download table data retrieved as of: ", at + " for table: " + table + " into folder: "+ folderName + " for schema version: ", schema_version)
 	let allPromises = []
 	let pathname
